@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">Room Memory</string>
+
+    <!-- Common -->
+    <string name="back">Back</string>
+    <string name="clear">Clear</string>
+    <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
+    <string name="undo">Undo</string>
+    <string name="save">Save</string>
+    <string name="location">Location</string>
+    <string name="name">Name</string>
+    <string name="photo_load_failed">Couldn\'t load the photo</string>
+    <string name="no_camera_app">No camera app found</string>
+
+    <!-- Photo box -->
+    <string name="add_photo">Add a photo</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="photo">Photo</string>
+    <string name="take_new_photo">Take a new photo</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="remove_photo">Remove photo</string>
+
+    <!-- Home -->
+    <string name="scan_photo">Scan photo</string>
+    <string name="search_hint">Where is …?</string>
+    <plurals name="search_hint_count">
+        <item quantity="one">Search %d item</item>
+        <item quantity="other">Search %d items</item>
+    </plurals>
+    <string name="clear_search">Clear search</string>
+    <string name="all_rooms">All rooms</string>
+    <plurals name="item_count">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
+    <string name="item_deleted">“%1$s” deleted</string>
+    <string name="empty_title">Nothing saved yet</string>
+    <string name="empty_text">Take a photo of a shelf or an open drawer – the things on it are recognized automatically.</string>
+    <string name="empty_action">Scan your first photo</string>
+    <string name="no_results_title">Nothing found</string>
+    <string name="no_results_query">No item matches “%1$s”.</string>
+    <string name="no_results_room">Nothing is stored in this room.</string>
+    <string name="just_now">Just now</string>
+    <string name="no_spot">No exact spot</string>
+
+    <!-- Add / edit -->
+    <string name="new_item">New item</string>
+    <string name="edit_item">Edit item</string>
+    <string name="required_hint">Name and room are required</string>
+    <string name="photo_hint">Helps you find it again later</string>
+    <string name="section_what">What?</string>
+    <string name="section_where">Where?</string>
+    <string name="label_name">Name *</string>
+    <string name="hint_name">e.g. charging cable</string>
+    <string name="label_notes">Notes</string>
+    <string name="hint_notes">optional, e.g. color, brand, which bag</string>
+    <string name="label_room">Room *</string>
+    <string name="hint_room">e.g. study</string>
+    <string name="label_furniture">Furniture / shelf</string>
+    <string name="hint_furniture">e.g. desk</string>
+    <string name="label_compartment">Compartment / drawer</string>
+    <string name="hint_compartment">e.g. top drawer, back right</string>
+
+    <!-- Scan -->
+    <string name="scan_empty_title">Photograph a shelf or drawer</string>
+    <string name="scan_empty_hint">Up to 5 items per photo are recognized</string>
+    <string name="analyzing">Recognizing items …</string>
+    <string name="detected_title">Detected – check the names</string>
+    <string name="where_things">Where are these things?</string>
+    <string name="hint_room_scan">e.g. basement</string>
+    <string name="hint_furniture_scan">e.g. shelf</string>
+    <string name="hint_compartment_scan">e.g. top shelf</string>
+    <string name="add_item_manually">Add an item manually</string>
+    <string name="enter_manually">No photo? Enter an item manually</string>
+    <string name="nothing_selected">Nothing selected</string>
+    <plurals name="save_items">
+        <item quantity="one">Save %d item</item>
+        <item quantity="other">Save %d items</item>
+    </plurals>
+    <plurals name="items_saved">
+        <item quantity="one">%d item saved</item>
+        <item quantity="other">%d items saved</item>
+    </plurals>
+    <string name="room_required_hint">Please enter a room below</string>
+    <string name="nothing_detected">Nothing recognized. You can add items manually.</string>
+    <string name="photo_analyze_failed">Couldn\'t analyze the photo</string>
+</resources>

@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">Room Memory</string>
+
+    <!-- Common -->
+    <string name="back">Zurück</string>
+    <string name="clear">Leeren</string>
+    <string name="delete">Löschen</string>
+    <string name="remove">Entfernen</string>
+    <string name="undo">Rückgängig</string>
+    <string name="save">Speichern</string>
+    <string name="location">Ort</string>
+    <string name="name">Name</string>
+    <string name="photo_load_failed">Foto konnte nicht geladen werden</string>
+    <string name="no_camera_app">Keine Kamera-App gefunden</string>
+
+    <!-- Photo box -->
+    <string name="add_photo">Foto hinzufügen</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galerie</string>
+    <string name="photo">Foto</string>
+    <string name="take_new_photo">Neues Foto aufnehmen</string>
+    <string name="choose_from_gallery">Foto aus Galerie wählen</string>
+    <string name="remove_photo">Foto entfernen</string>
+
+    <!-- Home -->
+    <string name="scan_photo">Foto scannen</string>
+    <string name="search_hint">Wo ist …?</string>
+    <plurals name="search_hint_count">
+        <item quantity="one">%d Gegenstand durchsuchen</item>
+        <item quantity="other">%d Gegenstände durchsuchen</item>
+    </plurals>
+    <string name="clear_search">Suche leeren</string>
+    <string name="all_rooms">Alle Räume</string>
+    <plurals name="item_count">
+        <item quantity="one">%d Gegenstand</item>
+        <item quantity="other">%d Gegenstände</item>
+    </plurals>
+    <string name="item_deleted">„%1$s“ gelöscht</string>
+    <string name="empty_title">Noch nichts gespeichert</string>
+    <string name="empty_text">Fotografiere ein Regal oder eine offene Schublade – die Gegenstände darauf werden automatisch erkannt.</string>
+    <string name="empty_action">Erstes Foto scannen</string>
+    <string name="no_results_title">Nichts gefunden</string>
+    <string name="no_results_query">Kein Gegenstand passt zu „%1$s“.</string>
+    <string name="no_results_room">In diesem Raum ist nichts gespeichert.</string>
+    <string name="just_now">Gerade eben</string>
+    <string name="no_spot">Kein genauer Platz</string>
+
+    <!-- Add / edit -->
+    <string name="new_item">Neuer Gegenstand</string>
+    <string name="edit_item">Bearbeiten</string>
+    <string name="required_hint">Name und Raum sind Pflichtfelder</string>
+    <string name="photo_hint">Hilft dir später beim Wiederfinden</string>
+    <string name="section_what">Was?</string>
+    <string name="section_where">Wo?</string>
+    <string name="label_name">Name *</string>
+    <string name="hint_name">z.B. Ladekabel</string>
+    <string name="label_notes">Notizen</string>
+    <string name="hint_notes">optional, z.B. Farbe, Marke, in welcher Tüte</string>
+    <string name="label_room">Raum *</string>
+    <string name="hint_room">z.B. Arbeitszimmer</string>
+    <string name="label_furniture">Möbelstück / Ablage</string>
+    <string name="hint_furniture">z.B. Schreibtisch</string>
+    <string name="label_compartment">Fach / Schublade</string>
+    <string name="hint_compartment">z.B. Obere Schublade, hinten rechts</string>
+
+    <!-- Scan -->
+    <string name="scan_empty_title">Regal oder Schublade fotografieren</string>
+    <string name="scan_empty_hint">Bis zu 5 Gegenstände pro Foto werden erkannt</string>
+    <string name="analyzing">Erkenne Gegenstände …</string>
+    <string name="detected_title">Erkannt – Namen prüfen</string>
+    <string name="where_things">Wo liegen die Sachen?</string>
+    <string name="hint_room_scan">z.B. Keller</string>
+    <string name="hint_furniture_scan">z.B. Regal</string>
+    <string name="hint_compartment_scan">z.B. Oberstes Fach</string>
+    <string name="add_item_manually">Gegenstand von Hand hinzufügen</string>
+    <string name="enter_manually">Ohne Foto? Gegenstand von Hand eintragen</string>
+    <string name="nothing_selected">Nichts ausgewählt</string>
+    <plurals name="save_items">
+        <item quantity="one">%d Gegenstand speichern</item>
+        <item quantity="other">%d Gegenstände speichern</item>
+    </plurals>
+    <plurals name="items_saved">
+        <item quantity="one">%d Gegenstand gespeichert</item>
+        <item quantity="other">%d Gegenstände gespeichert</item>
+    </plurals>
+    <string name="room_required_hint">Bitte unten einen Raum angeben</string>
+    <string name="nothing_detected">Nichts erkannt. Du kannst Gegenstände von Hand hinzufügen.</string>
+    <string name="photo_analyze_failed">Foto konnte nicht ausgewertet werden</string>
+</resources>
