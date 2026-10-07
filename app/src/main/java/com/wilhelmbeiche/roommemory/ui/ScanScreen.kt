@@ -3,6 +3,7 @@ package com.wilhelmbeiche.roommemory.ui
 import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -67,8 +68,26 @@ fun ScanScreen(
     val selectedCount = viewModel.candidates.count { it.selected && it.name.isNotBlank() }
     val canSave = !viewModel.isAnalyzing && room.isNotBlank() && selectedCount > 0
 
+    // Recognized items exist only on this screen until saved, so ask before leaving.
+    var confirmDiscard by remember { mutableStateOf(false) }
+    // A function, not a captured value: Compose may keep the `::leave` reference from an earlier composition.
+    fun hasUnsaved() = viewModel.candidates.isNotEmpty() && !viewModel.isSaving
+    fun leave() {
+        if (hasUnsaved()) confirmDiscard = true else onNavigateBack()
+    }
+    BackHandler(enabled = hasUnsaved()) { confirmDiscard = true }
+    if (confirmDiscard) {
+        DiscardChangesDialog(
+            onDiscard = {
+                confirmDiscard = false
+                onNavigateBack()
+            },
+            onDismiss = { confirmDiscard = false }
+        )
+    }
+
     Scaffold(
-        topBar = { BackTopBar(title = stringResource(R.string.scan_photo), onBack = onNavigateBack) },
+        topBar = { BackTopBar(title = stringResource(R.string.scan_photo), onBack = ::leave) },
         bottomBar = {
             if (viewModel.candidates.isNotEmpty()) {
                 BottomActionBar(

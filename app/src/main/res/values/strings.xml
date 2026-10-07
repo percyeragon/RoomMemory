@@ -12,6 +12,10 @@
     <string name="name">Name</string>
     <string name="photo_load_failed">Couldn\'t load the photo</string>
     <string name="no_camera_app">No camera app found</string>
+    <string name="discard_title">Discard changes?</string>
+    <string name="discard_text">Your entries haven\'t been saved and will be lost.</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
 
     <!-- Photo box -->
     <string name="add_photo">Add a photo</string>

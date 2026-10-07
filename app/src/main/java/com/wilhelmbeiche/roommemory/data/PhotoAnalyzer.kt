@@ -2,10 +2,7 @@ package com.wilhelmbeiche.roommemory.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.graphics.Rect
-import android.media.ExifInterface
 import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.common.model.DownloadConditions
@@ -82,7 +79,7 @@ class PhotoAnalyzer(context: Context) {
 
     /** Returns null if the photo cannot be read. */
     suspend fun analyze(photo: Uri): PhotoAnalysis? = withContext(Dispatchers.Default) {
-        val bitmap = loadBitmap(photo) ?: return@withContext null
+        val bitmap = ImageStorage.loadScaled(appContext, photo, MAX_SIZE) ?: return@withContext null
         val objects = objectDetector.process(InputImage.fromBitmap(bitmap, 0)).await()
 
         val items = objects
@@ -142,33 +139,6 @@ class PhotoAnalyzer(context: Context) {
         val bottom = (box.bottom + marginY).coerceAtMost(bitmap.height)
         if (right - left < MIN_CROP_SIZE || bottom - top < MIN_CROP_SIZE) return null
         return Bitmap.createBitmap(bitmap, left, top, right - left, bottom - top)
-    }
-
-    /** Decodes the photo downscaled to at most [MAX_SIZE] px and rotated upright. */
-    private fun loadBitmap(uri: Uri): Bitmap? {
-        val resolver = appContext.contentResolver
-        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-        // Decoding bounds only always returns null; the result is in [bounds].
-        resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
-        if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
-        var sampleSize = 1
-        while (maxOf(bounds.outWidth, bounds.outHeight) / (sampleSize * 2) >= MAX_SIZE) sampleSize *= 2
-
-        val decoded = resolver.openInputStream(uri)?.use {
-            BitmapFactory.decodeStream(it, null, BitmapFactory.Options().apply { inSampleSize = sampleSize })
-        } ?: return null
-
-        val rotation = resolver.openInputStream(uri)?.use {
-            when (ExifInterface(it).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
-                ExifInterface.ORIENTATION_ROTATE_90 -> 90f
-                ExifInterface.ORIENTATION_ROTATE_180 -> 180f
-                ExifInterface.ORIENTATION_ROTATE_270 -> 270f
-                else -> 0f
-            }
-        } ?: 0f
-        if (rotation == 0f) return decoded
-        val matrix = Matrix().apply { postRotate(rotation) }
-        return Bitmap.createBitmap(decoded, 0, 0, decoded.width, decoded.height, matrix, true)
     }
 
     private companion object {

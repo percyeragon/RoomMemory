@@ -38,6 +38,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wilhelmbeiche.roommemory.R
 import com.wilhelmbeiche.roommemory.data.ItemEntity
+import com.wilhelmbeiche.roommemory.data.ItemSearch
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -84,6 +85,7 @@ fun HomeScreen(
 
     // Nothing saved at all: the empty state has its own scan button, so the FAB would only repeat it.
     val isLibraryEmpty = matching != null && matching.isEmpty() && searchQuery.isBlank()
+    val searchTerms = remember(searchQuery) { ItemSearch.terms(searchQuery) }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -165,7 +167,7 @@ fun HomeScreen(
                         items(roomItems, key = { it.id }) { item ->
                             SwipeToDeleteItem(
                                 item = item,
-                                query = searchQuery.trim(),
+                                terms = searchTerms,
                                 onClick = { onNavigateToEditItem(item.id) },
                                 onDelete = { viewModel.deleteItem(item) },
                                 modifier = Modifier
@@ -356,7 +358,7 @@ private fun EmptyState(
 @Composable
 private fun SwipeToDeleteItem(
     item: ItemEntity,
-    query: String,
+    terms: List<String>,
     onClick: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier
@@ -383,12 +385,12 @@ private fun SwipeToDeleteItem(
             }
         }
     ) {
-        ItemCard(item = item, query = query, onClick = onClick)
+        ItemCard(item = item, terms = terms, onClick = onClick)
     }
 }
 
 @Composable
-private fun ItemCard(item: ItemEntity, query: String, onClick: () -> Unit) {
+private fun ItemCard(item: ItemEntity, terms: List<String>, onClick: () -> Unit) {
     val spot = listOf(item.furniture, item.compartment).filter { it.isNotBlank() }.joinToString("  ›  ")
     val highlight = SpanStyle(
         color = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -423,7 +425,7 @@ private fun ItemCard(item: ItemEntity, query: String, onClick: () -> Unit) {
             ) {
                 Row(verticalAlignment = Alignment.Top) {
                     Text(
-                        text = highlightMatches(item.title, query, highlight),
+                        text = highlightMatches(item.title, terms, highlight),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
@@ -440,7 +442,7 @@ private fun ItemCard(item: ItemEntity, query: String, onClick: () -> Unit) {
                 }
                 if (spot.isNotEmpty()) {
                     Text(
-                        text = highlightMatches(spot, query, highlight),
+                        text = highlightMatches(spot, terms, highlight),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 2,
@@ -456,7 +458,7 @@ private fun ItemCard(item: ItemEntity, query: String, onClick: () -> Unit) {
                 }
                 if (item.description.isNotBlank()) {
                     Text(
-                        text = highlightMatches(item.description, query, highlight),
+                        text = highlightMatches(item.description, terms, highlight),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
@@ -494,15 +496,17 @@ private fun relativeTime(timestamp: Long): String {
     ).toString()
 }
 
-/** Marks every case-insensitive occurrence of [query] in [text]. */
-private fun highlightMatches(text: String, query: String, style: SpanStyle): AnnotatedString {
-    if (query.isBlank()) return AnnotatedString(text)
+/** Marks every case-insensitive occurrence of each of [terms] in [text]. */
+private fun highlightMatches(text: String, terms: List<String>, style: SpanStyle): AnnotatedString {
+    if (terms.isEmpty()) return AnnotatedString(text)
     return buildAnnotatedString {
         append(text)
-        var start = text.indexOf(query, ignoreCase = true)
-        while (start >= 0) {
-            addStyle(style, start, start + query.length)
-            start = text.indexOf(query, start + query.length, ignoreCase = true)
+        for (term in terms) {
+            var start = text.indexOf(term, ignoreCase = true)
+            while (start >= 0) {
+                addStyle(style, start, start + term.length)
+                start = text.indexOf(term, start + term.length, ignoreCase = true)
+            }
         }
     }
 }

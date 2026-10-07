@@ -80,12 +80,42 @@ fun AddItemScreen(
         imageUri = newUri
     }
 
-    fun cancel() {
+    /** Whether leaving now would lose something the user typed or picked. */
+    fun hasChanges(): Boolean {
+        if (!fieldsLoaded) return false
+        val original = existing
+        if (original == null) {
+            // Editing, but the item is still being reloaded (e.g. after process death): nothing to compare yet.
+            if (isEditing) return false
+            return listOf(title, room, furniture, compartment, description, imageUri).any { it.isNotBlank() }
+        }
+        return title.trim() != original.title || room.trim() != original.room ||
+            furniture.trim() != original.furniture || compartment.trim() != original.compartment ||
+            description.trim() != original.description || imageUri != original.imageUri
+    }
+
+    fun discardAndLeave() {
         discardUnsavedImage()
         onNavigateBack()
     }
 
-    BackHandler(onBack = ::cancel)
+    var confirmDiscard by remember { mutableStateOf(false) }
+
+    fun cancel() {
+        if (hasChanges()) confirmDiscard = true else discardAndLeave()
+    }
+
+    BackHandler(enabled = !isSaving, onBack = ::cancel)
+
+    if (confirmDiscard) {
+        DiscardChangesDialog(
+            onDiscard = {
+                confirmDiscard = false
+                discardAndLeave()
+            },
+            onDismiss = { confirmDiscard = false }
+        )
+    }
 
     val photoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -107,7 +137,12 @@ fun AddItemScreen(
         val stored = pendingCameraStoredUri
         pendingCameraStoredUri = null
         if (stored == null) return@rememberLauncherForActivityResult
-        if (success) replaceImage(stored) else viewModel.discardImage(stored)
+        if (success) {
+            replaceImage(stored)
+            viewModel.shrinkImage(stored)
+        } else {
+            viewModel.discardImage(stored)
+        }
     }
 
     val canSave = fieldsLoaded && !isSaving && title.isNotBlank() && room.isNotBlank()

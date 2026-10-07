@@ -12,6 +12,10 @@
     <string name="name">Name</string>
     <string name="photo_load_failed">Foto konnte nicht geladen werden</string>
     <string name="no_camera_app">Keine Kamera-App gefunden</string>
+    <string name="discard_title">Änderungen verwerfen?</string>
+    <string name="discard_text">Deine Eingaben sind noch nicht gespeichert und gehen verloren.</string>
+    <string name="discard">Verwerfen</string>
+    <string name="keep_editing">Weiter bearbeiten</string>
 
     <!-- Photo box -->
     <string name="add_photo">Foto hinzufügen</string>

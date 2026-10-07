@@ -31,7 +31,7 @@ class ItemRepository private constructor(context: Context) {
     private val changes = MutableStateFlow(0)
 
     fun searchItems(query: String): Flow<List<ItemEntity>> =
-        changes.map { dbHelper.getItems(query) }.flowOn(Dispatchers.IO)
+        changes.map { ItemSearch.filter(dbHelper.getItems(), query) }.flowOn(Dispatchers.IO)
 
     fun rooms(): Flow<List<String>> =
         changes.map { dbHelper.getDistinctValues(DatabaseHelper.COLUMN_ROOM) }.flowOn(Dispatchers.IO)
@@ -64,6 +64,10 @@ class ItemRepository private constructor(context: Context) {
 
     suspend fun importImage(source: Uri): String? = withContext(Dispatchers.IO) {
         ImageStorage.importImage(appContext, source)
+    }
+
+    suspend fun shrinkImage(uri: String) = withContext(Dispatchers.IO) {
+        ImageStorage.shrink(appContext, uri)
     }
 
     suspend fun deleteImage(uri: String) = withContext(Dispatchers.IO) {

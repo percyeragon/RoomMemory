@@ -39,8 +39,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_ITEMS")
-        onCreate(db)
+        // The table holds the user's inventory, so never drop it here. When DATABASE_VERSION goes up,
+        // migrate step by step, e.g. `if (oldVersion < 2) db.execSQL("ALTER TABLE ... ADD COLUMN ...")`.
     }
 
     private fun ItemEntity.toContentValues() = ContentValues().apply {
@@ -83,14 +83,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return values
     }
 
-    fun getItems(query: String = ""): List<ItemEntity> {
-        if (query.isBlank()) return queryItems(null, null)
-        val q = "%${query.trim()}%"
-        return queryItems(
-            "$COLUMN_TITLE LIKE ? OR $COLUMN_ROOM LIKE ? OR $COLUMN_FURNITURE LIKE ? OR $COLUMN_COMPARTMENT LIKE ? OR $COLUMN_DESCRIPTION LIKE ?",
-            arrayOf(q, q, q, q, q)
-        )
-    }
+    /** All items, newest first. Searching happens in [ItemSearch]. */
+    fun getItems(): List<ItemEntity> = queryItems(null, null)
 
     private fun queryItems(selection: String?, selectionArgs: Array<String>?): List<ItemEntity> {
         val items = mutableListOf<ItemEntity>()

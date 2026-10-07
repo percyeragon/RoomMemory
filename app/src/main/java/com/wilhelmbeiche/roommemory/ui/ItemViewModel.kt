@@ -110,6 +110,11 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
 
     fun createCameraTarget(): ImageStorage.CameraTarget = repository.createCameraTarget()
 
+    /** Downscales a full-resolution camera photo in the background. */
+    fun shrinkImage(uri: String) {
+        viewModelScope.launch { repository.shrinkImage(uri) }
+    }
+
     /** Removes an image that was added in the editor but not saved. */
     fun discardImage(uri: String) {
         viewModelScope.launch { repository.deleteImage(uri) }

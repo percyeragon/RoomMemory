@@ -49,6 +49,22 @@ internal fun BackTopBar(
     )
 }
 
+/** Asks before throwing away unsaved input. */
+@Composable
+internal fun DiscardChangesDialog(onDiscard: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.discard_title)) },
+        text = { Text(stringResource(R.string.discard_text)) },
+        confirmButton = {
+            TextButton(onClick = onDiscard) { Text(stringResource(R.string.discard)) }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.keep_editing)) }
+        }
+    )
+}
+
 /** A titled group of form fields on a soft card. */
 @Composable
 internal fun SectionCard(
